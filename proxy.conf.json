@@ -1,0 +1,7 @@
+{
+  "/adn": {
+    "target": "http://localhost:8888",
+    "logLevel": "debug"
+  }
+
+}

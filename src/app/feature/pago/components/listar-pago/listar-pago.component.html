@@ -1,0 +1,37 @@
+<div class="bd-example" *ngIf='!verPagosPendientes'>
+  <br><br>
+  <form class="row g-3">
+    <div class="col-auto">
+      <input  [(ngModel)]="identificacion"  [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="txtIdentificacion" placeholder="Identificación">
+    </div>
+    <div class="col-auto">
+      <button id="btnConsultar" type="button" class="btn btn-primary mb-3" (click)='consultarPago ()'>Consultar Estado De Cuenta</button>
+    </div>
+  </form>
+  </div>
+<div id="pagos" *ngIf='verPagosPendientes'>
+  <br><br>  
+   <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Id Pago</th>
+        <th scope="col">Identificación</th>
+        <th scope="col">Codigo Factura</th>
+        <th scope="col">Valor a Pagar</th>
+        <th scope="col">Fecha de Vencimiento</th>
+        <th scope="col">Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-active" *ngFor="let pago of listaLocalPagos">
+        <th scope="row">{{pago.idPago}}</th>
+        <td>{{pago.documentoIdentificacionDeudor}}</td>
+        <td>{{pago.codigoFactura}}</td>
+        <td>{{pago.valorAdeudado}}</td>
+        <td>{{pago.fechaVencimientoPago}}</td>
+        <td><button id="btnPagar{{pago.idPago}}" type="button" class="btn btn-primary mb-3 btnPagar"  (click)='pagar(pago)'>Pagar</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <button  id="btnAtras"  type="button" class="btn btn-primary mb-3" (click)='atras()'>Consultar Estado De Cuenta</button>
+</div>
