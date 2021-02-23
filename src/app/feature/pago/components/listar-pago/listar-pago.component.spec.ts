@@ -13,8 +13,8 @@ describe('ListarPagoComponent', () => {
   let component: ListarPagoComponent;
   let fixture: ComponentFixture<ListarPagoComponent>;
   let pagoService: PagoService;
-  const listaPagos: Pago[] = [new Pago('3','123456789','FV-1984','500000.00','0.00','2020-01-30',''),
-                              new Pago('5','1111758458','FV-1986','1000000.00','0.00','2020-02-28','')];
+  const listaPagos: Pago[] = [new Pago('3' , '123456789' , 'FV-1984', '500000.00' , '0.00' , '2020-01-30' , ''),
+                              new Pago('5' , '1111758458' , 'FV-1986' , '1000000.00' , '0.00' , '2020-02-28', '')];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
