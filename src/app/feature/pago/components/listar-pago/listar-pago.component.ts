@@ -31,7 +31,7 @@ export class ListarPagoComponent implements OnInit {
 
 
   consultarPago() {
-    if(this.identificacion === ''){
+    if (this.identificacion === '') {
       swal.fire(this.identificacionVacia, this.tituloAdvertencia, 'warning');
       return;
     }
