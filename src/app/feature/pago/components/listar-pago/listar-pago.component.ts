@@ -14,6 +14,7 @@ import swal from 'sweetalert2';
 export class ListarPagoComponent implements OnInit {
   public listaPagos: Observable<Pago[]>;
   public listaLocalPagos: Pago[];
+  public listaSeleccionados: Pago[];
   public identificacion = '';
   public verPagosPendientes = false;
   public exitoso = false;
@@ -31,20 +32,19 @@ export class ListarPagoComponent implements OnInit {
 
 
   consultarPago() {
+    this.listaSeleccionados = []; 
     if (this.identificacion === '') {
       swal.fire(this.identificacionVacia, this.tituloAdvertencia, 'warning');
       return;
     }
 
-    let listaSeleccionados: Pago[];
-    listaSeleccionados = [];
     for (const data of this.listaLocalPagos) {
       if (data.documentoIdentificacionDeudor === this.identificacion) {
-        listaSeleccionados.push(data);
+        this.listaSeleccionados.push(data);
       }
     }
 
-    this.listaLocalPagos = listaSeleccionados;
+    this.listaLocalPagos = this.listaSeleccionados;
 
     if (this.listaLocalPagos.length > 0) {
       this.verPagosPendientes = true;
@@ -80,6 +80,7 @@ export class ListarPagoComponent implements OnInit {
     this.verPagosPendientes = false;
     this.identificacion = '';
     this.exitoso = false;
+    this.listaSeleccionados = [];
   }
 
 }
