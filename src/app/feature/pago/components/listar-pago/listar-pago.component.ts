@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PagoService } from '../../shared/service/pago.service';
 import { Pago } from '../../shared/model/pago';
- 
+
 
 @Component({
   selector: 'app-listar-pago',
@@ -16,7 +16,7 @@ export class ListarPagoComponent implements OnInit {
   public identificacion: string = "";
   public verPagosPendientes = false;
   public exitoso = false;
- 
+
   constructor(protected pagoService: PagoService) { }
 
   ngOnInit() {
@@ -24,55 +24,49 @@ export class ListarPagoComponent implements OnInit {
     this.listaPagos.subscribe(value => this.listaLocalPagos = value);
   }
 
- 
-  consultarPago()
-  {
+
+  consultarPago() {
     let listaSeleccionados: Pago[];
     listaSeleccionados = [];
-    for (let data of this.listaLocalPagos)
-    { 
-      if(data.documentoIdentificacionDeudor === this.identificacion && data.valorPagado === '0.00'){
-       listaSeleccionados.push(data) ;
+    for (const data of this.listaLocalPagos) {
+      if (data.documentoIdentificacionDeudor === this.identificacion && data.valorPagado === '0.00') {
+        listaSeleccionados.push(data);
       }
     }
-    
+
     this.listaLocalPagos = listaSeleccionados;
 
-    if(this.listaLocalPagos.length>0)
-    {
+    if (this.listaLocalPagos.length > 0) {
       this.verPagosPendientes = true;
-    }else{
+    } else {
       this.atras();
     }
   }
-  
-  pagar(pago: Pago)
-  {
-    let date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    let fechaPago = "";
-    
-    if(month < 10){
+
+  pagar(pago: Pago) {
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    let fechaPago = '';
+
+    if (month < 10) {
       fechaPago = `${day}-0${month}-${year}`;
-    }else
-     {
+    } else {
       fechaPago = `${day}-${month}-${year}`;
-     }
- 
-     pago.fechaPago = fechaPago;
-     pago.valorPagado = pago.valorAdeudado;
-     this.pagoService.actualizar(pago).subscribe(value => this.exitoso = value); 
-     this.atras();
+    }
+
+    pago.fechaPago = fechaPago;
+    pago.valorPagado = pago.valorAdeudado;
+    this.pagoService.actualizar(pago).subscribe(value => this.exitoso = value);
+    this.atras();
   }
 
-  atras()
-  {
+  atras() {
     this.listaPagos.subscribe(value => this.listaLocalPagos = value);
     this.verPagosPendientes = false;
     this.identificacion = '';
     this.exitoso = false;
   }
-  
+
 }
