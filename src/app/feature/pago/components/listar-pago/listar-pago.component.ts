@@ -13,7 +13,7 @@ import { Pago } from '../../shared/model/pago';
 export class ListarPagoComponent implements OnInit {
   public listaPagos: Observable<Pago[]>;
   public listaLocalPagos: Pago[];
-  public identificacion: string = '0';
+  public identificacion: string;
   public verPagosPendientes = false;
   public exitoso = false;
 
