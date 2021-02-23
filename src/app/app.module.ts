@@ -8,6 +8,7 @@ import { PagoModule } from '@pago/pago.module';
 import { CoreModule } from '@core/core.module';
 import { CookieService } from 'ngx-cookie-service';
 import { PagoComponent } from '@pago/components/pago/pago.component';
+import { ListarPagoComponent } from '@pago/components/listar-pago/listar-pago.component';
 
 
 
@@ -16,7 +17,8 @@ import { PagoComponent } from '@pago/components/pago/pago.component';
   declarations: [
     AppComponent,
     HomeComponent,
-    PagoComponent
+    PagoComponent,
+    ListarPagoComponent
   ],
   imports: [
     BrowserModule,
