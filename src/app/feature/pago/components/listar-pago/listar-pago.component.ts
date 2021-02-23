@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PagoService } from '../../shared/service/pago.service';
 import { Pago } from '../../shared/model/pago';
-import swal from'sweetalert2';
+import swal from 'sweetalert2';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class ListarPagoComponent implements OnInit {
   public listaLocalPagos: Pago[];
   public identificacion = '';
   public verPagosPendientes = false;
-  public exitoso = false; 
+  public exitoso = false;
   public tituloExito = '¡Éxito!';
   public pagoExitoso = '¡Pago realizado con Exito!';
 
