@@ -31,7 +31,7 @@ export class ListarPagoComponent implements OnInit {
     listaSeleccionados = [];
     for (let data of this.listaLocalPagos)
     { 
-      if(data.documentoIdentificacionDeudor==this.identificacion&&data.valorPagado=='0.00')
+      if(data.documentoIdentificacionDeudor==this.identificacion && data.valorPagado==='0.00')
       {
        listaSeleccionados.push(data) ;
       }
