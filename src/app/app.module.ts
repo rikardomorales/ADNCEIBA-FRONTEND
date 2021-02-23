@@ -7,6 +7,7 @@ import { HomeComponent } from '@home/home.component';
 import { PagoModule } from '@pago/pago.module';
 import { CoreModule } from '@core/core.module';
 import { CookieService } from 'ngx-cookie-service';
+import { PagoComponent } from '@pago/components/pago/pago.component';
 
 
 
@@ -14,7 +15,8 @@ import { CookieService } from 'ngx-cookie-service';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    PagoComponent
   ],
   imports: [
     BrowserModule,
