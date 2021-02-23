@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PagoService } from '../../shared/service/pago.service';
 import { Pago } from '../../shared/model/pago';
+import swal from'sweetalert2';
 
 
 @Component({
@@ -15,7 +16,12 @@ export class ListarPagoComponent implements OnInit {
   public listaLocalPagos: Pago[];
   public identificacion = '';
   public verPagosPendientes = false;
-  public exitoso = false;
+  public exitoso = false; 
+  public tituloExito = '¡Éxito!';
+  public pagoExitoso = '¡Pago realizado con Exito!';
+
+  public tituloAdvertencia = '¡Advertencia!';
+  public pagoNoEncontrado = '¡No Existen Pagos asociados!';
 
   constructor(protected pagoService: PagoService) { }
 
@@ -39,6 +45,7 @@ export class ListarPagoComponent implements OnInit {
     if (this.listaLocalPagos.length > 0) {
       this.verPagosPendientes = true;
     } else {
+      swal.fire(this.pagoNoEncontrado, this.tituloAdvertencia, 'warning');
       this.atras();
     }
   }
@@ -48,17 +55,19 @@ export class ListarPagoComponent implements OnInit {
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
+    const tamano = 10;
     let fechaPago = '';
 
-    if (month < 10) {
-      fechaPago = `${day}-0${month}-${year}`;
+    if (month < tamano ) {
+      fechaPago = `${year}-0${month}-${day}`;
     } else {
-      fechaPago = `${day}-${month}-${year}`;
+      fechaPago = `${year}-${month}-${day}`;
     }
 
     pago.fechaPago = fechaPago;
     pago.valorPagado = pago.valorAdeudado;
     this.pagoService.actualizar(pago).subscribe(value => this.exitoso = value);
+    swal.fire(this.pagoExitoso, this.tituloExito, 'success');
     this.atras();
   }
 
