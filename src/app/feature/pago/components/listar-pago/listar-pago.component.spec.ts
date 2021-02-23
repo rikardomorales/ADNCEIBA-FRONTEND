@@ -39,24 +39,24 @@ describe('ListarPagoComponent', () => {
     spyOn(pagoService, 'consultar').and.returnValue(of(listaPagos));
     fixture.detectChanges();
   });
-
  
-  it('validacion consulta', () => {
-        expect(component).toBeTruthy();
-        component.identificacion = IDENTIFICACION_TEST;
-        
-        component.consultarPago();
-        component.pagar(component.listaSeleccionados[0]);
-
-        expect(0).toBe(component.listaSeleccionados.length);
-  });
- 
-/*it('validacion identificacion vacia', () => {
+it('validacion identificacion vacia', () => {
     expect(component).toBeTruthy();
     component.identificacion = '';
     component.consultarPago();
     
     expect(0).toBe(component.listaSeleccionados.length);
-  });*/
+  });
+
+
+  it('validacion consulta', () => {
+    expect(component).toBeTruthy();
+    component.identificacion = IDENTIFICACION_TEST;
+    
+    component.consultarPago();
+    component.pagar(component.listaSeleccionados[0]);
+
+    expect(0).toBe(component.listaSeleccionados.length);
+});
 
 });
