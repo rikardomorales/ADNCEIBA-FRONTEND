@@ -17,8 +17,10 @@
         <th scope="col">Id Pago</th>
         <th scope="col">Identificación</th>
         <th scope="col">Codigo Factura</th>
-        <th scope="col">Valor a Pagar</th>
         <th scope="col">Fecha de Vencimiento</th>
+        <th scope="col">Valor a Pagar</th>        
+        <th scope="col">Fecha de Pago</th>
+        <th scope="col">Valor Pagado</th>
         <th scope="col">Acción</th>
       </tr>
     </thead>
@@ -27,11 +29,13 @@
         <th scope="row">{{pago.idPago}}</th>
         <td>{{pago.documentoIdentificacionDeudor}}</td>
         <td>{{pago.codigoFactura}}</td>
-        <td>{{pago.valorAdeudado}}</td>
         <td>{{pago.fechaVencimientoPago}}</td>
-        <td><button id="btnPagar{{pago.idPago}}" type="button" class="btn btn-primary mb-3 btnPagar"  (click)='pagar(pago)'>Pagar</button></td>
+        <td>{{pago.valorAdeudado}}</td>
+        <td>{{pago.fechaPago}}</td>
+        <td>{{pago.valorPagado}}</td>
+        <td><button id="btnPagar{{pago.idPago}}"  [disabled]="pago.valorPagado != '0.00'"  type="button" class="btn btn-primary mb-3 btnPagar"  (click)='pagar(pago)'>Pagar</button></td>
       </tr>
     </tbody>
   </table>
-  <button  id="btnAtras"  type="button" class="btn btn-primary mb-3" (click)='atras()'>Consultar Estado De Cuenta</button>
+  <button  id="btnAtras"  type="button" class="btn btn-primary mb-3" (click)='atras()'>Atras</button>
 </div>
