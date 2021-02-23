@@ -19,10 +19,9 @@ export class ListarPagoComponent implements OnInit {
   public exitoso = false;
   public tituloExito = '¡Éxito!';
   public pagoExitoso = '¡Pago realizado con Exito!';
-
   public tituloAdvertencia = '¡Advertencia!';
   public pagoNoEncontrado = '¡No Existen Pagos asociados!';
-
+  public identificacionVacia = '¡Por favor ingrese una identificación!';
   constructor(protected pagoService: PagoService) { }
 
   ngOnInit() {
@@ -32,6 +31,11 @@ export class ListarPagoComponent implements OnInit {
 
 
   consultarPago() {
+    if(this.identificacion === ''){
+      swal.fire(this.identificacionVacia, this.tituloAdvertencia, 'warning');
+      return;
+    }
+
     let listaSeleccionados: Pago[];
     listaSeleccionados = [];
     for (const data of this.listaLocalPagos) {
