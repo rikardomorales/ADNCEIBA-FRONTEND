@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { ListarPagoComponent } from './listar-pago.component';
@@ -20,44 +20,49 @@ describe('ListarPagoComponent', () => {
   /*
    const IDENTIFICACION_TEST = '1111758458';
   */
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ListarPagoComponent],
-      imports: [
-        CommonModule,
-        HttpClientModule,
-        RouterTestingModule
-      ],
-      providers: [PagoService, HttpService]
-    })
-      .compileComponents();
-  }));
+ beforeEach(() => {
+  TestBed.configureTestingModule({
+    declarations: [ListarPagoComponent],
+    imports: [
+      CommonModule,
+      HttpClientModule,
+      RouterTestingModule
+    ],
+    providers: [PagoService, HttpService]
+  }).compileComponents();
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ListarPagoComponent);
-    component = fixture.componentInstance;
-    pagoService = TestBed.inject(PagoService);
-    spyOn(pagoService, 'consultar').and.returnValue(of(listaPagos));
-    fixture.detectChanges();
-  });
+  fixture = TestBed.createComponent(ListarPagoComponent);
+  pagoService = TestBed.inject(PagoService);
+  component = fixture.componentInstance;
+  fixture.detectChanges();
+});
 
-  it('validacion identificacion vacia', () => {
-    expect(component).toBeTruthy();
-    component.identificacion = '';
-    component.consultarPago();
+it('Debería crearse el componente', () => {
+  expect(component).toBeTruthy();
+});
 
-    expect(0).toBe(component.listaSeleccionados.length);
-  });
-  /*
+it('Debería llamarse el servicio que lista los pagos', () => {
+  // Arrange
+  const spy = spyOn(pagoService, 'consultar').and.returnValue(
+    of([])
+  );
+  // Act
+  component.ngOnInit();
+  // Assert
+  expect(spy).toHaveBeenCalled();
+});
 
-  it('validacion consulta', () => {
-    expect(component).toBeTruthy();
-    component.identificacion = IDENTIFICACION_TEST;
+it('Debería listar correctamente los pagos desde el servicio', () => {
+  // Arrange
+  spyOn(pagoService, 'consultar').and.returnValue(
+    of(listaPagos)
+  );
+  // Act
+  component.ngOnInit();
+  let listaPagosEsperada: Pago[];
+  component.listaPagos.subscribe(value => listaPagosEsperada = value);
+  // Assert
+  expect(listaPagosEsperada).toBe(listaPagos);
+});
 
-    component.consultarPago();
-    component.pagar(component.listaSeleccionados[0]);
-
-    expect(0).toBe(component.listaSeleccionados.length);
-  });
- */
 });
