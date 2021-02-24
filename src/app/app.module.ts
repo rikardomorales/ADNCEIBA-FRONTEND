@@ -7,8 +7,6 @@ import { HomeComponent } from '@home/home.component';
 import { PagoModule } from '@pago/pago.module';
 import { CoreModule } from '@core/core.module';
 import { CookieService } from 'ngx-cookie-service';
-import { PagoComponent } from '@pago/components/pago/pago.component';
-import { ListarPagoComponent } from '@pago/components/listar-pago/listar-pago.component';
 
 
 
@@ -16,9 +14,7 @@ import { ListarPagoComponent } from '@pago/components/listar-pago/listar-pago.co
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    PagoComponent,
-    ListarPagoComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +23,7 @@ import { ListarPagoComponent } from '@pago/components/listar-pago/listar-pago.co
     CoreModule
   ],
   providers: [CookieService],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    bootstrap: [AppComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
