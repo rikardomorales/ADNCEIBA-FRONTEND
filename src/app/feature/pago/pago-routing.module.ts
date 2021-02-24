@@ -7,8 +7,7 @@ const routes: Routes = [
   {
     path: '',
     component: PagoComponent,
-    children: [
-     {
+    children: [{
         path: 'listar',
         component: ListarPagoComponent,
      },
