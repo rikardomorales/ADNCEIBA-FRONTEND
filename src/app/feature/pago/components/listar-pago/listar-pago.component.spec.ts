@@ -41,17 +41,6 @@ it('Debería crearse el componente', () => {
   expect(component).toBeTruthy();
 });
 
-it('Debería llamarse el servicio que lista los pagos', () => {
-  // Arrange
-  const spy = spyOn(pagoService, 'consultar').and.returnValue(
-    of([])
-  );
-  // Act
-  component.ngOnInit();
-  // Assert
-  expect(spy).toHaveBeenCalled();
-});
-
 it('Debería listar correctamente los pagos desde el servicio', () => {
   // Arrange
   spyOn(pagoService, 'consultar').and.returnValue(
