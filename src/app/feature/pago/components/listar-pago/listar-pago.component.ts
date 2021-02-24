@@ -32,7 +32,7 @@ export class ListarPagoComponent implements OnInit {
   consultarPago() {
     this.listaSeleccionados = [];
     if (this.identificacion === '') {
-      swal.fire(this.identificacionVacia, this.tituloAdvertencia, 'warning');
+      swal.fire(this.tituloAdvertencia, this.identificacionVacia, 'warning');
       return;
     }
 
@@ -47,7 +47,7 @@ export class ListarPagoComponent implements OnInit {
     if (this.listaLocalPagos.length > 0) {
       this.verPagosPendientes = true;
     } else {
-      swal.fire(this.pagoNoEncontrado, this.tituloAdvertencia, 'warning');
+      swal.fire(this.tituloAdvertencia, this.pagoNoEncontrado, 'warning');
       this.atras();
     }
   }
@@ -69,7 +69,7 @@ export class ListarPagoComponent implements OnInit {
     pago.fechaPago = fechaPago;
     pago.valorPagado = pago.valorAdeudado;
     this.pagoService.actualizar(pago).subscribe(value => this.exitoso = value);
-    swal.fire(this.pagoExitoso, this.tituloExito, 'success');
+    swal.fire(this.tituloExito, this.pagoExitoso, 'success');
     this.atras();
   }
 
