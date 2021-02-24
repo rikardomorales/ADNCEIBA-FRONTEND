@@ -83,10 +83,8 @@ describe('ListarPagoComponent', () => {
       of(listaPagos)
     );
     component.identificacion = IDENTIFICACION_TEST;
-
     // Act
     component.ngOnInit();
-
     component.consultarPago();
     component.pagar(component.listaSeleccionados[0]);
     // Assert
