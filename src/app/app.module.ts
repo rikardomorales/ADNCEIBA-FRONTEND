@@ -22,6 +22,7 @@ import { CookieService } from 'ngx-cookie-service';
     PagoModule,
     CoreModule
   ],
+  exports: [PagoModule],
   providers: [CookieService],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
