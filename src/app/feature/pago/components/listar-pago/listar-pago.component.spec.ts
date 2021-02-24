@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { ListarPagoComponent } from './listar-pago.component';
@@ -20,38 +20,44 @@ describe('ListarPagoComponent', () => {
   /*
    const IDENTIFICACION_TEST = '1111758458';
   */
- beforeEach(() => {
-  TestBed.configureTestingModule({
-    declarations: [ListarPagoComponent],
-    imports: [
-      CommonModule,
-      HttpClientModule,
-      RouterTestingModule
-    ],
-    providers: [PagoService, HttpService]
-  }).compileComponents();
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ListarPagoComponent],
+      imports: [
+        CommonModule,
+        HttpClientModule,
+        RouterTestingModule
+      ],
+      providers: [PagoService, HttpService]
+    })
+      .compileComponents();
+  }));
 
-  fixture = TestBed.createComponent(ListarPagoComponent);
-  pagoService = TestBed.inject(PagoService);
-  component = fixture.componentInstance;
-  fixture.detectChanges();
-});
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ListarPagoComponent);
+    component = fixture.componentInstance;
+    pagoService = TestBed.inject(PagoService);
+    spyOn(pagoService, 'consultar').and.returnValue(of(listaPagos));
+    fixture.detectChanges();
+  });
 
-it('Debería crearse el componente', () => {
-  expect(component).toBeTruthy();
-});
+  it('validacion identificacion vacia', () => {
+    expect(component).toBeTruthy();
+    component.identificacion = '';
+    component.consultarPago();
 
-it('Debería listar correctamente los pagos desde el servicio', () => {
-  // Arrange
-  spyOn(pagoService, 'consultar').and.returnValue(
-    of(listaPagos)
-  );
-  // Act
-  component.ngOnInit();
-  let listaPagosEsperada: Pago[];
-  component.listaPagos.subscribe(value => listaPagosEsperada = value);
-  // Assert
-  expect(listaPagosEsperada).toBe(listaPagos);
-});
+    expect(0).toBe(component.listaSeleccionados.length);
+  });
+  /*
 
+  it('validacion consulta', () => {
+    expect(component).toBeTruthy();
+    component.identificacion = IDENTIFICACION_TEST;
+
+    component.consultarPago();
+    component.pagar(component.listaSeleccionados[0]);
+
+    expect(0).toBe(component.listaSeleccionados.length);
+  });
+ */
 });
