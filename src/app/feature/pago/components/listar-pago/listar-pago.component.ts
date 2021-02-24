@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { PagoService } from '../../shared/service/pago.service';
 import { Pago } from '../../shared/model/pago';
-import swal from 'sweetalert2';
-
+import swal from 'sweetalert2'; 
 
 @Component({
   selector: 'app-listar-pago',
@@ -32,6 +30,7 @@ export class ListarPagoComponent implements OnInit {
 
 
   consultarPago() {
+    debugger;
     this.listaSeleccionados = [];
     if (this.identificacion === '') {
       swal.fire(this.identificacionVacia, this.tituloAdvertencia, 'warning');
