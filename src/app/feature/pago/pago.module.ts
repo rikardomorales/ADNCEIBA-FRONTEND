@@ -8,7 +8,7 @@ import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [ListarPagoComponent, PagoComponent],
-  imports: [PagoRoutingModule,SharedModule],
+  imports: [PagoRoutingModule, SharedModule],
   providers: [PagoService],
 })
 export class PagoModule {}
