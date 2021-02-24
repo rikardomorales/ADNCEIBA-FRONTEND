@@ -32,7 +32,7 @@ export class ListarPagoComponent implements OnInit {
 
 
   consultarPago() {
-    this.listaSeleccionados = []; 
+    this.listaSeleccionados = [];
     if (this.identificacion === '') {
       swal.fire(this.identificacionVacia, this.tituloAdvertencia, 'warning');
       return;

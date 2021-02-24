@@ -8,10 +8,10 @@ const routes: Routes = [
     path: '',
     component: PagoComponent,
     children: [
-      {
+     {
         path: 'listar',
         component: ListarPagoComponent,
-      },
+     },
     ],
   },
 ];
