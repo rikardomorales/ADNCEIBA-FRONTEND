@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, canActivate: [SecurityGuard]  },
   { path: 'pago', loadChildren: () => import('@pago/pago.module').then(mod => mod.PagoModule) }
-  
+ 
 ];
 
 @NgModule({
