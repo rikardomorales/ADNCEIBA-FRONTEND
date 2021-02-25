@@ -50,7 +50,7 @@ describe('ListarPagoComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('Debería listar correctamente los pagos desde el servicio', () => {
+  it('Deberia listar correctamente los pagos desde el servicio', () => {
     // Arrange
     spyOn(pagoService, 'consultar').and.returnValue(
       of(listaPagos)
@@ -61,7 +61,7 @@ describe('ListarPagoComponent', () => {
     expect(listaPagos).toBe(component.listaLocalPagos);
   });
 
-  it('No debería seleccionar pagos', async () => {
+  it('No deberia seleccionar pagos', async () => {
     // Arrange
     spyOn(pagoService, 'consultar').and.returnValue(
       of(listaPagos)
@@ -74,7 +74,7 @@ describe('ListarPagoComponent', () => {
     expect(0).toBe(component.listaSeleccionados.length);
   });
 
-  it('Debería encontrar pagos', async () => {
+  it('Deberia encontrar pagos', async () => {
     // Arrange
     spyOn(pagoService, 'consultar').and.returnValue(
       of(listaPagos)
@@ -97,7 +97,7 @@ describe('ListarPagoComponent', () => {
     component.pagoForm.get('identificacion').setValue('654987');
     component.consultarPago();
     // Assert
-    expect(0).toBe(component.listaSeleccionados.length);
+    expect(false).toEqual(component.verPagosPendientes);
   });
 
   it('validacion consulta', () => {
