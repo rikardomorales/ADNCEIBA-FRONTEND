@@ -81,13 +81,16 @@ describe('ListarPagoComponent', () => {
     spyOn(pagoService, 'consultar').and.returnValue(
       of(listaPagos)
     );
+    spyOn(pagoService, 'actualizar').and.returnValue(
+      of(true)
+    );
     component.pagoForm.get('identificacion').setValue(IDENTIFICACION_TEST);
     // Act
     component.ngOnInit();
     component.consultarPago();
     component.pagar(pagoTest);
     // Assert
-    expect(0).toBe(component.listaSeleccionados.length);
+    expect(true).toBe(component.exitoso);
   });
 
   afterAll(() => {
