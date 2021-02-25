@@ -43,7 +43,7 @@ pipeline {
 
         stage('Unit Test') {
             steps {
-                sh 'ng test --watch false'
+                sh 'ng test --browsers ChromeHeadless --progress=false --watch false'
             }
         }
 
