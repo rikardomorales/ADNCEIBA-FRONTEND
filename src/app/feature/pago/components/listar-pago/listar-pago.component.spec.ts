@@ -63,7 +63,7 @@ describe('ListarPagoComponent', () => {
     expect(listaPagosEsperada).toBe(listaPagos);
   });
 
-  it('Debería mostrarse un mensaje indicando que se debe ingresar identificacion', async () => {
+  it('Debería mostrarse un mensaje indicando que se debe ingresar identificacion', () => {
     // Arrange
     spyOn(pagoService, 'consultar').and.returnValue(
       of(listaPagos)
@@ -94,6 +94,7 @@ describe('ListarPagoComponent', () => {
   });
 
   afterAll(() => {
+    fixture.destroy();
     TestBed.resetTestingModule();
   });
 });
