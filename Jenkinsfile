@@ -47,12 +47,12 @@ pipeline {
             }
         }
 
-        stage('Test') {
+            stage('Test') {
             steps{
                 echo "------------>Testing<------------"
-                sh 'npm run test'
+                sh 'ng test --browsers ChromeHeadless --code-coverage'
             }
-        }
+            }
 
         stage('Static Code Analysis') {
             steps{
