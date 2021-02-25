@@ -84,9 +84,9 @@ describe('ListarPagoComponent', () => {
     spyOn(pagoService, 'actualizar').and.returnValue(
       of(true)
     );
-    component.pagoForm.get('identificacion').setValue(IDENTIFICACION_TEST);
     // Act
     component.ngOnInit();
+    component.pagoForm.get('identificacion').setValue(IDENTIFICACION_TEST);
     component.consultarPago();
     component.pagar(pagoTest);
     // Assert
