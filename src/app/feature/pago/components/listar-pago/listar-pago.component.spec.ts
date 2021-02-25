@@ -43,7 +43,7 @@ describe('ListarPagoComponent', () => {
       of(listaPagos)
     );
     // Act
-    component.ngOnInit();
+    component.listarPagos();
     // Assert
     expect(spy).toHaveBeenCalled();
   });
