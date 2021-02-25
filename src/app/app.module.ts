@@ -16,7 +16,8 @@ import { FormsModule } from '@angular/forms';
     HomeComponent
   ],
   imports: [
-    BrowserModule,FormsModule,
+    BrowserModule,
+    FormsModule,
     AppRoutingModule,
     PagoModule,
     CoreModule

@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-//import { By } from '@angular/platform-browser';
-
 import { ListarPagoComponent } from './listar-pago.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';

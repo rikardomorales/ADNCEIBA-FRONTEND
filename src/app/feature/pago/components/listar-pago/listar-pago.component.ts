@@ -84,7 +84,7 @@ export class ListarPagoComponent implements OnInit {
     this.listaPagos.subscribe(value => this.listaLocalPagos = value);
     this.verPagosPendientes = false;
     this.identificacion = '';
-    this.pagoForm.get('identificacion').setValue('')
+    this.pagoForm.get('identificacion').setValue('');
     this.exitoso = false;
     this.listaSeleccionados = [];
   }
