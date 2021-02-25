@@ -26,9 +26,16 @@ export class ListarPagoComponent implements OnInit {
   constructor(protected pagoService: PagoService) { }
 
   ngOnInit() {
-    this.listaPagos = this.pagoService.consultar();
-    this.listaPagos.subscribe(value => this.listaLocalPagos = value);
-    this.construirFormulario();
+   this.listarPagos();
+   this.construirFormulario();
+  }
+
+  listarPagos(): void
+  { 
+    this.pagoService.consultar().subscribe(
+      response => {
+        this.listaLocalPagos = response;
+      });
   }
 
   private construirFormulario(): void {
@@ -81,7 +88,7 @@ export class ListarPagoComponent implements OnInit {
   }
 
   atras() {
-    this.listaPagos.subscribe(value => this.listaLocalPagos = value);
+    this.listarPagos();
     this.verPagosPendientes = false;
     this.identificacion = '';
     this.pagoForm.get('identificacion').setValue('');
