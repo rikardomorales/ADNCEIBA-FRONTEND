@@ -26,14 +26,14 @@ export class ListarPagoComponent implements OnInit {
   constructor(protected pagoService: PagoService) { }
 
   ngOnInit() {
-   this.listaLocalPagos = this.listarPagos();
+   this.listarPagos();
    this.construirFormulario();
   }
 
-  listarPagos(): any {
+  listarPagos() {
     this.pagoService.consultar().subscribe(
       response => {
-        return response;
+        this.listaLocalPagos = response;
       });
   }
 
