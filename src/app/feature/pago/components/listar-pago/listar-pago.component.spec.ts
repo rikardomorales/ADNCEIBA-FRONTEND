@@ -91,10 +91,5 @@ describe('ListarPagoComponent', () => {
     component.pagar(pagoTest);
     // Assert
     expect(true).toBe(component.exitoso);
-  });
-
-  afterAll(() => {
-    fixture.destroy();
-    TestBed.resetTestingModule();
-  });
+  }); 
 });
