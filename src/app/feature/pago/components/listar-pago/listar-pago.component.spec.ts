@@ -68,6 +68,7 @@ describe('ListarPagoComponent', () => {
     );
     // Act
     component.listaLocalPagos = listaPagos;
+    component.construirFormulario();
     component.pagoForm.get('identificacion').setValue('');
     component.consultarPago();
     // Assert
@@ -81,6 +82,7 @@ describe('ListarPagoComponent', () => {
     );
     // Act
     component.listaLocalPagos = listaPagos;
+    component.construirFormulario();
     component.pagoForm.get('identificacion').setValue('1111758458');
     component.consultarPago();
     // Assert
@@ -94,6 +96,7 @@ describe('ListarPagoComponent', () => {
     );
     // Act
     component.listaLocalPagos = listaPagos;
+    component.construirFormulario();
     component.pagoForm.get('identificacion').setValue('654987');
     component.consultarPago();
     // Assert
@@ -108,9 +111,11 @@ describe('ListarPagoComponent', () => {
     spyOn(pagoService, 'actualizar').and.returnValue(
       of(exitoso)
     );
-    component.pagoForm.get('identificacion').setValue(IDENTIFICACION_TEST);
+   
     // Act
-    component.ngOnInit();
+    component.listaLocalPagos = listaPagos;
+    component.construirFormulario();
+    component.pagoForm.get('identificacion').setValue(IDENTIFICACION_TEST);
     pagoService.actualizar(pagoTest);
     component.pagar(pagoTest);
     // Assert
