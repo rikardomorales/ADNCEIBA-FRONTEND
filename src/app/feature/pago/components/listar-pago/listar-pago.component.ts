@@ -26,15 +26,14 @@ export class ListarPagoComponent implements OnInit {
   constructor(protected pagoService: PagoService) { }
 
   ngOnInit() {
-   this.listarPagos();
+   this.listaLocalPagos = this.listarPagos();
    this.construirFormulario();
   }
 
-  listarPagos(): void
-  { 
+  listarPagos(): any {
     this.pagoService.consultar().subscribe(
       response => {
-        this.listaLocalPagos = response;
+        return response;
       });
   }
 
@@ -68,7 +67,7 @@ export class ListarPagoComponent implements OnInit {
     }
   }
 
-  pagar(pago: Pago) {
+  pagar(pago: Pago): any {
     const date = new Date();
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -85,6 +84,7 @@ export class ListarPagoComponent implements OnInit {
     this.pagoService.actualizar(pago).subscribe(value => this.exitoso = value);
     swal.fire(this.tituloExito, this.pagoExitoso, 'success');
     this.atras();
+    return this.exitoso;
   }
 
   atras() {

@@ -15,6 +15,7 @@ describe('ListarPagoComponent', () => {
   new Pago('3', '1111758458', 'FV-1984', '350000.00', '0.00', '2020-02-28', '')];
   const IDENTIFICACION_TEST = '1111758458';
   const pagoTest = new Pago('3', '1111758458', 'FV-1984', '350000.00', '0.00', '2020-02-28', '');
+  const exitoso = true;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -38,8 +39,8 @@ describe('ListarPagoComponent', () => {
 
   it('Debería llamarse el servicio que lista los pagos', () => {
     // Arrange
-    const spy = spyOn(pagoService, 'consultar').and.returnValue(
-      of([])
+    const spy = spyOn(component, 'listarPagos').and.returnValue(
+      of(listaPagos)
     );
     // Act
     component.ngOnInit();
@@ -47,50 +48,40 @@ describe('ListarPagoComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-
   it('Debería listar correctamente los pagos desde el servicio', () => {
     // Arrange
     spyOn(pagoService, 'consultar').and.returnValue(
       of(listaPagos)
     );
-    // Act
-    component.ngOnInit();
-    let listaPagosEsperada: Pago[];
-    listaPagosEsperada = component.listaLocalPagos;
-    // Assert
-    expect(listaPagosEsperada).toBe(listaPagosEsperada);
-  });
-
-  it('Debería mostrarse un mensaje indicando que se debe ingresar identificacion', () => {
-    // Arrange
-    spyOn(pagoService, 'consultar').and.returnValue(
+    spyOn(component, 'listarPagos').and.returnValue(
       of(listaPagos)
     );
     // Act
     component.ngOnInit();
-    console.log('-------------> ' + component.listaLocalPagos.length);
-    component.pagoForm.get('identificacion').setValue('');
-    component.consultarPago();
+    let listaPagosEsperada: Pago[];
+    listaPagosEsperada = component.listarPagos();
     // Assert
-    console.log('-------------> ' + component.listaSeleccionados.length);
-    expect(0).toBe(component.listaSeleccionados.length);
+    expect(listaPagosEsperada).toBe(listaPagosEsperada);
   });
+
 
   it('validacion consulta', () => {
     // Arrange
     spyOn(pagoService, 'consultar').and.returnValue(
       of(listaPagos)
     );
-    spyOn(pagoService, 'actualizar').and.returnValue(
-      of(true)
+    spyOn(component, 'listarPagos').and.returnValue(
+      of(listaPagos)
+    );
+    spyOn(component, 'pagar').and.returnValue(
+      of(exitoso)
     );
     // Act
     component.ngOnInit();
     component.pagoForm.get('identificacion').setValue(IDENTIFICACION_TEST);
-    component.consultarPago();
     component.pagar(pagoTest);
     // Assert
-    expect(true).toBe(component.exitoso);
+    expect(true).toEqual(exitoso);
   });
 
   afterAll(() => {
