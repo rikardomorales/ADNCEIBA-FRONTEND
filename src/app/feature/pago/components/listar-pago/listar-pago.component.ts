@@ -73,14 +73,13 @@ export class ListarPagoComponent implements OnInit {
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
     const tamano = 10;
-    let strFechaPago = '';
 
     if (month < tamano) {
-      strFechaPago = strFechaPago + `${year}-0${month}-${day}`;
+      pago.fechaPago = `${year}-0${month}-${day}`;
     } else {
-      strFechaPago = strFechaPago + `${year}-${month}-${day}`;
+      pago.fechaPago = `${year}-${month}-${day}`;
     }
-    pago.fechaPago = strFechaPago;
+
     pago.valorPagado = pago.valorAdeudado;
     this.pagoService.actualizar(pago).subscribe(value => this.exitoso = value);
     swal.fire(this.tituloExito, this.pagoExitoso, 'success');
