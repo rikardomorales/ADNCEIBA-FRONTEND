@@ -41,12 +41,6 @@ pipeline {
             }
         }
 
-        stage('Unit Test') {
-            steps {
-                sh 'ng test --browsers ChromeHeadless --progress=false --watch false --code-coverage'
-            }
-        }
-
         stage('Lint') {
             steps {
                 sh 'ng lint'
