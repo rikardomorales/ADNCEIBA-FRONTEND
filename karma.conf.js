@@ -19,6 +19,10 @@ module.exports = function (config) {
         random: false
       }
     },
+    HeadlessChrome:{
+      base: 'ChromeHeadless',
+      flags: ['--no-sandbox']
+    },
     remapIstanbulReporter: {
       dir : 'reports/test-results/coverage',
       reports: {
