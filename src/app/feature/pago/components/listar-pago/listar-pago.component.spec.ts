@@ -111,7 +111,7 @@ describe('ListarPagoComponent', () => {
     spyOn(pagoService, 'actualizar').and.returnValue(
       of(exitoso)
     );
-  
+
     // Act
     component.listaLocalPagos = listaPagos;
     component.construirFormulario();
