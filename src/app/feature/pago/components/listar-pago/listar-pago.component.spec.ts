@@ -17,7 +17,7 @@ describe('ListarPagoComponent', () => {
   new Pago('3', '1111758458', 'FV-1984', '350000.00', '0.00', '2020-02-28', '')];
   const IDENTIFICACION_TEST = '1111758458';
   const pagoTest = new Pago('3', '1111758458', 'FV-1984', '350000.00', '0.00', '2020-02-28', '');
-
+  const exitoso = true;
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ListarPagoComponent],
@@ -61,7 +61,7 @@ describe('ListarPagoComponent', () => {
     expect(listaPagos).toBe(component.listaLocalPagos);
   });
 
-  it('Debería mostrarse un mensaje indicando que se debe ingresar identificacion', async () => {
+  it('No debería seleccionar pagos', async () => {
     // Arrange
     spyOn(pagoService, 'consultar').and.returnValue(
       of(listaPagos)
@@ -74,22 +74,47 @@ describe('ListarPagoComponent', () => {
     expect(0).toBe(component.listaSeleccionados.length);
   });
 
+  it('Debería encontrar pagos', async () => {
+    // Arrange
+    spyOn(pagoService, 'consultar').and.returnValue(
+      of(listaPagos)
+    );
+    // Act
+    component.ngOnInit();
+    component.pagoForm.get('identificacion').setValue('1111758458');
+    component.consultarPago();
+    // Assert
+    expect(true).toEqual(component.verPagosPendientes);
+  });
+
+  it('no deberia encontrar pagos', async () => {
+    // Arrange
+    spyOn(pagoService, 'consultar').and.returnValue(
+      of(listaPagos)
+    );
+    // Act
+    component.ngOnInit();
+    component.pagoForm.get('identificacion').setValue('654987');
+    component.consultarPago();
+    // Assert
+    expect(0).toBe(component.listaSeleccionados.length);
+  });
+
   it('validacion consulta', () => {
     // Arrange
     spyOn(pagoService, 'consultar').and.returnValue(
       of(listaPagos)
     );
     spyOn(pagoService, 'actualizar').and.returnValue(
-      of(true)
+      of(exitoso)
     );
     component.pagoForm.get('identificacion').setValue(IDENTIFICACION_TEST);
     // Act
     component.ngOnInit();
     pagoService.actualizar(pagoTest);
-    component.consultarPago();
     component.pagar(pagoTest);
     // Assert
-    expect(0).toBe(component.listaSeleccionados.length);
+    expect(exitoso).toEqual(component.exitoso);
   });
 
   afterAll(() => {
