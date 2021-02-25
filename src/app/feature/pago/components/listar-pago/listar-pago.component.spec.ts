@@ -117,8 +117,4 @@ describe('ListarPagoComponent', () => {
     expect(exitoso).toEqual(component.exitoso);
   });
 
-  afterAll(() => {
-    TestBed.resetTestingModule();
-  });
-
 });
