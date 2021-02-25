@@ -45,7 +45,7 @@ describe('ListarPagoComponent', () => {
       of(listaPagos)
     );
     // Act
-    component.ngOnInit();
+    pagoService.consultar();
     // Assert
     expect(spy).toHaveBeenCalled();
   });
@@ -56,7 +56,7 @@ describe('ListarPagoComponent', () => {
       of(listaPagos)
     );
     // Act
-    component.ngOnInit();
+    component.listaLocalPagos = listaPagos;
     // Assert
     expect(listaPagos).toBe(component.listaLocalPagos);
   });
