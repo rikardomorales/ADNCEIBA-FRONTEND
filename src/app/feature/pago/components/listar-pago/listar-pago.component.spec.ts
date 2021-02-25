@@ -67,7 +67,7 @@ describe('ListarPagoComponent', () => {
       of(listaPagos)
     );
     // Act
-    component.ngOnInit();
+    component.listaLocalPagos = listaPagos;
     component.pagoForm.get('identificacion').setValue('');
     component.consultarPago();
     // Assert
@@ -80,7 +80,7 @@ describe('ListarPagoComponent', () => {
       of(listaPagos)
     );
     // Act
-    component.construirFormulario();
+    component.listaLocalPagos = listaPagos;
     component.pagoForm.get('identificacion').setValue('1111758458');
     component.consultarPago();
     // Assert
@@ -93,7 +93,7 @@ describe('ListarPagoComponent', () => {
       of(listaPagos)
     );
     // Act
-    component.ngOnInit();
+    component.listaLocalPagos = listaPagos;
     component.pagoForm.get('identificacion').setValue('654987');
     component.consultarPago();
     // Assert
