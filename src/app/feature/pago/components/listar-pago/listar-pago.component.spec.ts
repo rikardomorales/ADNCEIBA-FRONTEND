@@ -18,6 +18,7 @@ describe('ListarPagoComponent', () => {
   new Pago('2', '1111758458', 'FV-1983', '1000000.00', '0.00', '2020-02-28', ''),
   new Pago('3', '1111758458', 'FV-1984', '350000.00', '0.00', '2020-02-28', '')];
   const IDENTIFICACION_TEST = '1111758458';
+  const pagoTest = new Pago('3', '1111758458', 'FV-1984', '350000.00', '0.00', '2020-02-28', '');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,7 +44,7 @@ describe('ListarPagoComponent', () => {
   it('Debería llamarse el servicio que lista los pagos', () => {
     // Arrange
     const spy = spyOn(pagoService, 'consultar').and.returnValue(
-      of([])
+      of(listaPagos)
     );
     // Act
     component.ngOnInit();
@@ -71,27 +72,27 @@ describe('ListarPagoComponent', () => {
     );
     // Act
     component.ngOnInit();
-    component.identificacion = '';
+    component.pagoForm.get('identificacion').setValue('');
     component.consultarPago();
     // Assert
     expect(0).toBe(component.listaSeleccionados.length);
   });
- 
+
   it('validacion consulta', () => {
     // Arrange
     spyOn(pagoService, 'consultar').and.returnValue(
       of(listaPagos)
     );
-    component.identificacion = IDENTIFICACION_TEST;
+    component.pagoForm.get('identificacion').setValue(IDENTIFICACION_TEST);
     // Act
     component.ngOnInit();
     component.consultarPago();
-    component.pagar(component.listaSeleccionados[0]);
+    component.pagar(pagoTest);
     // Assert
     expect(0).toBe(component.listaSeleccionados.length);
   });
 
   afterAll(() => {
     TestBed.resetTestingModule();
-  }); 
+  });
 });

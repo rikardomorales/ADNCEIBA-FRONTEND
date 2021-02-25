@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { PagoService } from '../../shared/service/pago.service';
 import { Pago } from '../../shared/model/pago';
 import swal from 'sweetalert2';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-listar-pago',
@@ -10,6 +11,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./listar-pago.component.css']
 })
 export class ListarPagoComponent implements OnInit {
+  pagoForm: FormGroup;
   public listaPagos: Observable<Pago[]>;
   public listaLocalPagos: Pago[];
   public listaSeleccionados: Pago[];
@@ -26,11 +28,18 @@ export class ListarPagoComponent implements OnInit {
   ngOnInit() {
     this.listaPagos = this.pagoService.consultar();
     this.listaPagos.subscribe(value => this.listaLocalPagos = value);
+    this.construirFormulario();
   }
 
+  private construirFormulario(): void {
+    this.pagoForm = new FormGroup({
+      identificacion: new FormControl('')
+    });
+  }
 
   consultarPago() {
     this.listaSeleccionados = [];
+    this.identificacion = this.pagoForm.get('identificacion').value;
     if (this.identificacion === '') {
       swal.fire(this.tituloAdvertencia, this.identificacionVacia, 'warning');
       return;
@@ -58,15 +67,13 @@ export class ListarPagoComponent implements OnInit {
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
     const tamano = 10;
-    let fechaPago = '';
 
-    if (month < tamano ) {
-      fechaPago = `${year}-0${month}-${day}`;
+    if (month < tamano) {
+      pago.fechaPago = `${year}-0${month}-${day}`;
     } else {
-      fechaPago = `${year}-${month}-${day}`;
+      pago.fechaPago = `${year}-${month}-${day}`;
     }
 
-    pago.fechaPago = fechaPago;
     pago.valorPagado = pago.valorAdeudado;
     this.pagoService.actualizar(pago).subscribe(value => this.exitoso = value);
     swal.fire(this.tituloExito, this.pagoExitoso, 'success');
@@ -77,6 +84,7 @@ export class ListarPagoComponent implements OnInit {
     this.listaPagos.subscribe(value => this.listaLocalPagos = value);
     this.verPagosPendientes = false;
     this.identificacion = '';
+    this.pagoForm.get('identificacion').setValue('')
     this.exitoso = false;
     this.listaSeleccionados = [];
   }

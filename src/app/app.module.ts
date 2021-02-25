@@ -7,8 +7,7 @@ import { HomeComponent } from '@home/home.component';
 import { PagoModule } from '@pago/pago.module';
 import { CoreModule } from '@core/core.module';
 import { CookieService } from 'ngx-cookie-service';
-
-
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,12 +16,11 @@ import { CookieService } from 'ngx-cookie-service';
     HomeComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,FormsModule,
     AppRoutingModule,
     PagoModule,
     CoreModule
   ],
-  exports: [PagoModule],
   providers: [CookieService],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
