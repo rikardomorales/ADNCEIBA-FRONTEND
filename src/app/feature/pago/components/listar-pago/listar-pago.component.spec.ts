@@ -80,7 +80,7 @@ describe('ListarPagoComponent', () => {
       of(listaPagos)
     );
     // Act
-    component.ngOnInit();
+    component.construirFormulario();
     component.pagoForm.get('identificacion').setValue('1111758458');
     component.consultarPago();
     // Assert
@@ -115,6 +115,10 @@ describe('ListarPagoComponent', () => {
     component.pagar(pagoTest);
     // Assert
     expect(exitoso).toEqual(component.exitoso);
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 
 });

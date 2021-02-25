@@ -37,7 +37,7 @@ export class ListarPagoComponent implements OnInit {
       });
   }
 
-  private construirFormulario(): void {
+  construirFormulario(): void {
     this.pagoForm = new FormGroup({
       identificacion: new FormControl('')
     });
