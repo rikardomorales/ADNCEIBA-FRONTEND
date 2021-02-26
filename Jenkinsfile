@@ -41,18 +41,18 @@ pipeline {
             }
         }
 
+        stage('Test') {
+           steps{
+              echo "------------>Testing<------------"
+              sh 'ng test --browsers ChromeHeadless --code-coverage'
+           }
+        }
+
         stage('Lint') {
             steps {
                 sh 'ng lint'
             }
         }
-
-            stage('Test') {
-            steps{
-                echo "------------>Testing<------------"
-                sh 'ng test --browsers ChromeHeadless --code-coverage'
-            }
-            }
 
         stage('Static Code Analysis') {
             steps{
