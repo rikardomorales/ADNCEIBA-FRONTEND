@@ -7,8 +7,7 @@ import { NotificacionService } from '@shared/copmponents/notificacion/service/no
 
 @Component({
   selector: 'app-listar-pago',
-  templateUrl: './listar-pago.component.html',
-  styleUrls: ['./listar-pago.component.css']
+  templateUrl: './listar-pago.component.html'
 })
 export class ListarPagoComponent implements OnInit {
   public pagoForm: FormGroup;
