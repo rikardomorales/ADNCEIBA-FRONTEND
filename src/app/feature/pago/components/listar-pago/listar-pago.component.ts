@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { PagoService } from '../../shared/service/pago.service';
 import { Pago } from '../../shared/model/pago';
-import swal from 'sweetalert2';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Notificacion } from '@shared/copmponents/notificacion/model/notificacion';
+import { NotificacionService } from '@shared/copmponents/notificacion/service/notificacion.service';
 
 @Component({
   selector: 'app-listar-pago',
@@ -11,88 +11,75 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./listar-pago.component.css']
 })
 export class ListarPagoComponent implements OnInit {
-  pagoForm: FormGroup;
-  public listaPagos: Observable<Pago[]>;
+  public pagoForm: FormGroup;
   public listaLocalPagos: Pago[];
-  public listaSeleccionados: Pago[];
-  public identificacion = '';
   public verPagosPendientes = false;
-  public exitoso = false;
   public tituloExito = '¡Éxito!';
   public pagoExitoso = '¡Pago realizado con Exito!';
   public tituloAdvertencia = '¡Advertencia!';
   public pagoNoEncontrado = '¡No Existen Pagos asociados!';
-  public identificacionVacia = '¡Por favor ingrese una identificación!';
-  constructor(protected pagoService: PagoService) { }
+  public notificacion: Notificacion;
+  public tituloError = '¡Error!';
+  public descripcionError = '¡Ocurrio un error de conexión al realizar la consulta!';
+  constructor(protected pagoService: PagoService, private notificacionService: NotificacionService) { }
 
   ngOnInit() {
-   this.listarPagos();
-   this.construirFormulario();
-  }
-
-  listarPagos() {
-    this.pagoService.consultar().subscribe(
-      response => {
-        this.listaLocalPagos = response;
-      });
+    this.construirFormulario();
   }
 
   construirFormulario(): void {
     this.pagoForm = new FormGroup({
-      identificacion: new FormControl('')
+      identificacion: new FormControl('', [Validators.required])
     });
   }
 
-  consultarPago() {
-    this.listaSeleccionados = [];
-    this.identificacion = this.pagoForm.get('identificacion').value;
-    if (this.identificacion === '') {
-      swal.fire(this.tituloAdvertencia, this.identificacionVacia, 'warning');
-      return;
-    }
-
-    for (const data of this.listaLocalPagos) {
-      if (data.documentoIdentificacionDeudor === this.identificacion) {
-        this.listaSeleccionados.push(data);
+  consultarPorCedula() {
+    this.pagoService.consultarIdentificacion(this.pagoForm.get('identificacion').value).subscribe(respuesta => {
+      this.listaLocalPagos = respuesta;
+      if (this.listaLocalPagos.length > 0) {
+        this.verPagosPendientes = true;
+      } else {
+        this.notificacion = new Notificacion(this.tituloAdvertencia, this.pagoNoEncontrado, true);
+        this.notificacionService.emiteAdvertencia(this.notificacion);
+        this.limpiarFormulario();
       }
-    }
-
-    this.listaLocalPagos = this.listaSeleccionados;
-
-    if (this.listaLocalPagos.length > 0) {
-      this.verPagosPendientes = true;
-    } else {
-      swal.fire(this.tituloAdvertencia, this.pagoNoEncontrado, 'warning');
-      this.atras();
-    }
+    }, err => {
+      this.notificacion = new Notificacion(this.tituloError, this.descripcionError, true);
+      this.notificacionService.emiteAdvertencia(this.notificacion);
+      console.log(err);
+      this.limpiarFormulario();
+    });
   }
 
-  pagar(pago: Pago): any {
-    const date = new Date();
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    const tamano = 10;
-
-    if (month < tamano) {
-      pago.fechaPago = `${year}-0${month}-${day}`;
-    } else {
-      pago.fechaPago = `${year}-${month}-${day}`;
-    }
-
+    pagar(pago: Pago) {
+    pago.fechaPago = this.obtenerFechaActual();
     pago.valorPagado = pago.valorAdeudado;
-    this.pagoService.actualizar(pago).subscribe(value => this.exitoso = value);
-    swal.fire(this.tituloExito, this.pagoExitoso, 'success');
-    this.atras();
-    return this.exitoso;
+
+    this.pagoService.actualizar(pago).subscribe(() => {
+      this.notificacion = new Notificacion(this.tituloExito, this.pagoExitoso, true);
+      this.notificacionService.emiteAdvertencia(this.notificacion);
+    }, err => {
+      this.notificacion = new Notificacion(this.tituloError, this.descripcionError, true);
+      this.notificacionService.emiteAdvertencia(this.notificacion);
+      console.log(err);
+    });
+
   }
 
-  atras() {
-    this.listarPagos();
+  limpiarFormulario() {
     this.verPagosPendientes = false;
-    this.identificacion = '';
     this.pagoForm.get('identificacion').setValue('');
-    this.listaSeleccionados = [];
   }
 
+  obtenerFechaActual() {
+    const date = new Date();
+    const day = '' + date.getDate();
+    const month = '' + (date.getMonth() + 1);
+    const year = '' + date.getFullYear();
+    let fechaActual = '';
+
+    fechaActual = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+    return fechaActual;
+  }
 }

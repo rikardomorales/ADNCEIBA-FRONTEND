@@ -7,17 +7,22 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { PagoService } from '../../shared/service/pago.service';
 import { Pago } from '../../shared/model/pago';
 import { HttpService } from 'src/app/core/services/http.service';
+import { Notificacion } from '@shared/copmponents/notificacion/model/notificacion';
 
 describe('ListarPagoComponent', () => {
+  let notificacion: Notificacion;
   let component: ListarPagoComponent;
   let fixture: ComponentFixture<ListarPagoComponent>;
   let pagoService: PagoService;
-  const listaPagos: Pago[] = [new Pago('1', '123456789', 'FV-1982', '500000.00', '0.00', '2020-01-30', ''),
-  new Pago('2', '1111758458', 'FV-1983', '1000000.00', '0.00', '2020-02-28', ''),
+  const listaPagos: Pago[] = [new Pago('2', '1111758458', 'FV-1983', '1000000.00', '0.00', '2020-02-28', ''),
   new Pago('3', '1111758458', 'FV-1984', '350000.00', '0.00', '2020-02-28', '')];
   const IDENTIFICACION_TEST = '1111758458';
+  const IDENTIFICACION_TEST_INEXISTENTE = '32323232';
+  const FECHA_ACTUAL = '2021-03-02';
   const pagoTest = new Pago('3', '1111758458', 'FV-1984', '350000.00', '0.00', '2020-02-28', '');
-  const exitoso = true;
+  const TITULO_NOTIFICACION_EXITOSA = '¡Éxito!';
+  const DESCRIPCION_NOTIFICACION_EXITOSA = '¡Pago realizado con Exito!';
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ListarPagoComponent],
@@ -39,7 +44,16 @@ describe('ListarPagoComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Debería llamarse el servicio que lista los pagos', () => {
+  it('Debería ser invalido el formulario si esta vacio', () => {
+    expect(component.pagoForm.valid).toBeFalsy();
+  });
+
+  it('Debería ser valido el formulario si esta diligenciado', () => {
+    component.pagoForm.controls.identificacion.setValue(IDENTIFICACION_TEST);
+    expect(component.pagoForm.valid).toBeTruthy();
+  });
+
+  it('Debería llamarse el servicio consultar pagos', () => {
     // Arrange
     const spy = spyOn(pagoService, 'consultar').and.returnValue(
       of(listaPagos)
@@ -50,77 +64,93 @@ describe('ListarPagoComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('Deberia listar correctamente los pagos desde el servicio', () => {
+  it('Debería llamarse el servicio que actualiza pagos', () => {
     // Arrange
-    spyOn(pagoService, 'consultar').and.returnValue(
-      of(listaPagos)
+    const spy = spyOn(pagoService, 'actualizar').and.returnValue(
+      of(true)
     );
     // Act
-    component.listaLocalPagos = listaPagos;
-    // Assert
-    expect(listaPagos).toBe(component.listaLocalPagos);
-  });
-
-  it('No deberia seleccionar pagos', async () => {
-    // Arrange
-    spyOn(pagoService, 'consultar').and.returnValue(
-      of(listaPagos)
-    );
-    // Act
-    component.listaLocalPagos = listaPagos;
-    component.construirFormulario();
-    component.pagoForm.get('identificacion').setValue('');
-    component.consultarPago();
-    // Assert
-    expect(0).toBe(component.listaSeleccionados.length);
-  });
-
-  it('Deberia encontrar pagos', async () => {
-    // Arrange
-    spyOn(pagoService, 'consultar').and.returnValue(
-      of(listaPagos)
-    );
-    // Act
-    component.listaLocalPagos = listaPagos;
-    component.construirFormulario();
-    component.pagoForm.get('identificacion').setValue('1111758458');
-    component.consultarPago();
-    // Assert
-    expect(true).toEqual(component.verPagosPendientes);
-  });
-
-  it('no deberia encontrar pagos', async () => {
-    // Arrange
-    spyOn(pagoService, 'consultar').and.returnValue(
-      of(listaPagos)
-    );
-    // Act
-    component.listaLocalPagos = listaPagos;
-    component.construirFormulario();
-    component.pagoForm.get('identificacion').setValue('654987');
-    component.consultarPago();
-    // Assert
-    expect(false).toEqual(component.verPagosPendientes);
-  });
-
-  it('validacion consulta', () => {
-    // Arrange
-    spyOn(pagoService, 'consultar').and.returnValue(
-      of(listaPagos)
-    );
-    spyOn(pagoService, 'actualizar').and.returnValue(
-      of(exitoso)
-    );
-    component.exitoso = true;
-
-    // Act
-    component.listaLocalPagos = listaPagos;
-    component.construirFormulario();
-    component.pagoForm.get('identificacion').setValue(IDENTIFICACION_TEST);
     pagoService.actualizar(pagoTest);
-    component.pagar(pagoTest);
     // Assert
-    expect(exitoso).toEqual(component.exitoso);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('Debería consultar por cedula', () => {
+    // Arrange
+    spyOn(pagoService, 'consultarIdentificacion').and.returnValue(
+      of(listaPagos)
+    );
+    component.pagoForm.controls.identificacion.setValue(IDENTIFICACION_TEST);
+    // Act
+    component.consultarPorCedula();
+    // Assert
+    expect(component.verPagosPendientes).toEqual(true);
+  });
+
+  it('No debería consultar por cedula', () => {
+    // Arrange
+    spyOn(pagoService, 'consultarIdentificacion').and.returnValue(
+      of([])
+    );
+    component.pagoForm.controls.identificacion.setValue(IDENTIFICACION_TEST_INEXISTENTE);
+
+    // Act
+    component.consultarPorCedula();
+
+    // Assert
+    expect(component.verPagosPendientes).toEqual(false);
+  });
+
+  it('Debería consultar por cedula', () => {
+    // Arrange
+    spyOn(pagoService, 'consultarIdentificacion').and.returnValue(
+      of(listaPagos)
+    );
+    component.pagoForm.controls.identificacion.setValue(IDENTIFICACION_TEST);
+    // Act
+    component.consultarPorCedula();
+    // Assert
+    expect(component.verPagosPendientes).toEqual(true);
+  });
+
+  it('Debería obtener la Fecha Actual', () => {
+    // Arrange
+    let fechaRespuesta = '';
+
+    // Act
+    fechaRespuesta = component.obtenerFechaActual();
+
+    // Assert
+    expect(fechaRespuesta).toEqual(FECHA_ACTUAL);
+  });
+
+  it('Debería limpiar el Formulario', () => {
+    // Arrange
+    component.pagoForm.controls.identificacion.setValue(IDENTIFICACION_TEST);
+    component.verPagosPendientes = true;
+
+    // Act
+    component.limpiarFormulario();
+
+    // Assert
+    expect(component.pagoForm.get('identificacion').value).toEqual('');
+    expect(component.verPagosPendientes).toEqual(false);
+
+  });
+
+  it('Debería realizar el Pago', () => {
+    // Arrange
+    spyOn(pagoService, 'actualizar').and.returnValue(
+      of(true)
+    );
+    notificacion = new Notificacion(TITULO_NOTIFICACION_EXITOSA, DESCRIPCION_NOTIFICACION_EXITOSA, true);
+
+    // Act
+    component.pagar(pagoTest);
+
+    // Assert
+    expect(component.notificacion).toEqual(notificacion);
+
   });
 
   afterAll(() => {

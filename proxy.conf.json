@@ -1,7 +1,8 @@
 {
-  "/prospectos-vida": {
+  "/adn/*": {
     "target": "http://localhost:8888",
-    "logLevel": "debug"
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
   }
-
 }
